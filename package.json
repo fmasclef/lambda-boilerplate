@@ -1,0 +1,39 @@
+{
+  "name": "lambda-boilerplate",
+  "version": "0.1.0",
+  "description": "Build & ship AWS λ app with ease",
+  "scripts": {
+    "build": "esbuild ts/*.ts --bundle --minify --platform=node --target=node18 --external:aws-sdk --external:@aws-sdk --outdir=build",
+    "watch": "esbuild ts/*.ts --bundle --minify --platform=node --target=node18 --external:aws-sdk --external:@aws-sdk --outdir=build --watch",
+    "lint": "eslint ./ts --ext .ts",
+    "push": "echo tbd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/fmasclef/lambda-boilerplate.git"
+  },
+  "keywords": [
+    "λ",
+    "aws",
+    "boilerplate",
+    "lambda"
+  ],
+  "author": "fmasclef",
+  "license": "CC-BY-SA-4.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "*",
+    "@types/node": "*",
+    "@typescript-eslint/eslint-plugin": "*",
+    "@typescript-eslint/parser": "*",
+    "aws-lambda": "*",
+    "esbuild": "*",
+    "eslint": "*",
+    "eslint-plugin-import": "*",
+    "typescript": "*"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "*"
+  }}
