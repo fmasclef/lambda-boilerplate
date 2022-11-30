@@ -1,11 +1,7 @@
 # λ boilerplate
 
 This boilerplate is provided as-is. Use it at your own risks. Should you alter
-it, please redistribute freely and state my name ;)
-
-![CC-BY-SA 4.0](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)
-
-Build with ❤️ in Lille.
+it, please redistribute freely and state my name, this is CC-BY-SA 4.0.
 
 # Usage
 
@@ -37,11 +33,15 @@ docker run --rm -v "$PWD"/build:/var/task:ro,delegated -p 9000:8080 --env-file .
 
 In the case above, the function `handler()` of file `dist/demo.js` will be available as **the** lambda function you're actually working on.
 
+A handy convenience npm script is available so you don't have to remember the whole command. Use `FUNCTION=<your_function_name> npm run indocker` and you're done. A container will start, serving your lambda function.
+
 Invoke your function with any event:
 
 ```
 curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d @events/demo.json
 ```
+
+:warning: Remember that your container works just like lambda on AWS. It only serve the latest version of the code you _uploaded_ to it. In our case, it will only serve the js code that was on your `build/` folder when you started it. The only way to refresh is stopping then starting again a container.
 
 ## Build & ship
 
@@ -56,3 +56,10 @@ The `build/` folder is now filled with `.js` files. One for each lambda function
 ```
 npm run push
 ```
+
+
+This boilerplate is build with ❤️ in Lille.
+
+![CC-BY-SA 4.0](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)
+
+

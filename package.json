@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "description": "Build & ship AWS λ app with ease",
   "scripts": {
+    "lint": "eslint ./ts --ext .ts",
     "build": "esbuild ts/*.ts --bundle --minify --platform=node --target=node18 --external:aws-sdk --external:@aws-sdk --outdir=build",
     "watch": "esbuild ts/*.ts --bundle --minify --platform=node --target=node18 --external:aws-sdk --external:@aws-sdk --outdir=build --watch",
-    "lint": "eslint ./ts --ext .ts",
+    "indocker": "docker run --rm -v ${PWD}/build:/var/task:ro,delegated -p 9000:8080 --env-file .env/${FUNCTION}.env amazon/aws-lambda-nodejs:18 ${FUNCTION}.handler",
     "push": "echo tbd"
   },
   "repository": {
