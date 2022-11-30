@@ -5,6 +5,10 @@ it, please redistribute freely and state my name, this is CC-BY-SA 4.0.
 
 # Usage
 
+## The one thing to do first
+
+Update `.node-version` with the targeted Node.js version. I recommend targetting the latest AWS supported one, you still might want something else (oh no, I'm stuck with v14). The build script relies on this file to target the right Node.js version and make this boilerplate more versatile, so don't mess up: set the right version.
+
 ## Develop
 
 **Write your code**
@@ -57,9 +61,6 @@ The `build/` folder is now filled with `.js` files. One for each lambda function
 npm run push
 ```
 
-
 This boilerplate is build with ❤️ in Lille.
 
 ![CC-BY-SA 4.0](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)
-
-
