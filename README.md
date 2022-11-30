@@ -15,6 +15,8 @@ Build with ❤️ in Lille.
 
 Head to `ts/` folder. Your lambda function should be individual `.ts` files at the root of this folder. Transpile in watch mode by running `npm run watch` in a terminal.
 
+Should your lambda function requires additional envvars, set them in a file name by your function in `.env/` folder. For instance, if your lambda function name is _demo_, then add a `.env/demo.json` file.
+
 **Run locally**
 
 You'll need Docker to do that. So first, install Docker Desktop. Then, pull AWS Lambda images:
@@ -30,7 +32,7 @@ Well, you should stick with latest, but who knows? You might have some other fun
 Start a container, map `dist/` folder, expose a TCP port and set a function handler:
 
 ```
-docker run --rm -v "$PWD"/build:/var/task:ro,delegated -p 9000:8080 amazon/aws-lambda-nodejs:18 demo.handler
+docker run --rm -v "$PWD"/build:/var/task:ro,delegated -p 9000:8080 --env-file .env/demo.env amazon/aws-lambda-nodejs:18 demo.handler
 ```
 
 In the case above, the function `handler()` of file `dist/demo.js` will be available as **the** lambda function you're actually working on.
