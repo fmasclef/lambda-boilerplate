@@ -8,6 +8,11 @@ const handler = async (event: APIGatewayEvent, context: Context) => {
   process.stdout.write(`${JSON.stringify(context, null, 2)}\n`);
   process.stdout.write(`\x1b[32menvvars:\x1b[0m\n`);
   process.stdout.write(`${JSON.stringify(process.env, null, 2)}\n`);
+
+  return {
+    body: "Demo!",
+    statusCode: 200,
+  };
 };
 
 export { handler };
