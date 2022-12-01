@@ -3,6 +3,9 @@
 This boilerplate is provided as-is. Use it at your own risks. Should you alter
 it, please redistribute freely and state my name, this is CC-BY-SA 4.0.
 
+![compliance](https://github.com/fmasclef/lambda-boilerplate/actions/workflows/compliance.yml/badge.svg?event=push)
+![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)
+
 # Usage
 
 ## The one thing to do first
