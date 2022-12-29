@@ -26,10 +26,16 @@
     "node": ">=18.0.0"
   },
   "jest": {
-    "verbose": true,
+    "collectCoverage": true,
+    "coverageReporters": [
+      "html",
+      "json",
+      "text"
+    ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
-    }
+    },
+    "verbose": true
   },
   "devDependencies": {
     "@types/adm-zip": "*",
