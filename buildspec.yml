@@ -1,0 +1,21 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: latest
+  pre_build:
+    commands:
+      - n 18
+      - aws codeartifact login --tool npm --domain snapcar --domain-owner 381841675619 --repository lecab
+      - NODE_ENV=build npm i
+  build:
+    commands:
+      - npm run lint
+      - npm run build
+      - npm run test
+  post_build:
+    commands:
+      - npm run deploy
+artifacts:
+  files:
+    - "build/*"
