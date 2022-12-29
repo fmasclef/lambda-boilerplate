@@ -1,5 +1,6 @@
 import fs from "fs-extra";
 import {
+  GetFunctionUrlConfigCommand,
   LambdaClient,
   ListFunctionsCommand,
   UpdateFunctionCodeCommand,
@@ -85,6 +86,14 @@ import zip from "adm-zip";
         `   | status code: ${response.$metadata.httpStatusCode}\n`
       );
       process.stdout.write(`   | code sha256: ${response.CodeSha256}\n`);
+      // Try to get URL for this function
+      const urlcommand = new GetFunctionUrlConfigCommand({
+        FunctionName: lambdaName,
+      });
+      const urlresponse = await lambdaClient.send(urlcommand);
+      if (urlresponse.$metadata.httpStatusCode == 200) {
+        process.stdout.write(`   | URL: ${urlresponse.FunctionUrl}\n`);
+      }
     } catch (e) {
       process.stdout.write(` ⨯\n`);
     }
