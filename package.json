@@ -4,11 +4,11 @@
   "description": "Build & ship AWS λ app with ease",
   "scripts": {
     "lint": "eslint ./ts --ext .ts",
-    "build": "BUILD_NODE_VERSION=$(head -1 .node-version | awk '{split($0,a,\".\"); print a[1]}'); esbuild ts/*.ts --bundle --minify --platform=node --target=node${BUILD_NODE_VERSION} --external:aws-sdk --external:@aws-sdk --outdir=build",
-    "watch": "BUILD_NODE_VERSION=$(head -1 .node-version | awk '{split($0,a,\".\"); print a[1]}'); esbuild ts/*.ts --bundle --minify --platform=node --target=node${BUILD_NODE_VERSION} --external:aws-sdk --external:@aws-sdk --outdir=build --watch",
+    "build": "BUILD_NODE_VERSION=$(head -1 .node-version | awk '{split($0,a,\".\"); print a[1]}'); esbuild ts/lambda/*.ts --bundle --minify --platform=node --target=node${BUILD_NODE_VERSION} --external:aws-sdk --external:@aws-sdk --outdir=build",
+    "watch": "BUILD_NODE_VERSION=$(head -1 .node-version | awk '{split($0,a,\".\"); print a[1]}'); esbuild ts/lambda/*.ts --bundle --minify --platform=node --target=node${BUILD_NODE_VERSION} --external:aws-sdk --external:@aws-sdk --outdir=build --watch",
     "indocker": "BUILD_NODE_VERSION=$(head -1 .node-version | awk '{split($0,a,\".\"); print a[1]}'); docker run --rm -v ${PWD}/build:/var/task:ro,delegated -p 9000:8080 --env-file .env/${FUNCTION}.env amazon/aws-lambda-nodejs:${BUILD_NODE_VERSION} ${FUNCTION}.handler",
     "test": "jest --coverage",
-    "push": "echo tbd"
+    "deploy": "ts-node ts/deploy.ts"
   },
   "repository": {
     "type": "git",
@@ -32,7 +32,9 @@
     }
   },
   "devDependencies": {
+    "@types/adm-zip": "*",
     "@types/aws-lambda": "*",
+    "@types/fs-extra": "*",
     "@types/jest": "*",
     "@types/node": "*",
     "@typescript-eslint/eslint-plugin": "*",
@@ -45,6 +47,10 @@
     "typescript": "*"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "*"
+    "@aws-sdk/client-iam": "*",
+    "@aws-sdk/client-lambda": "*",
+    "adm-zip": "*",
+    "fs-extra": "*",
+    "ts-node": "*"
   }
 }

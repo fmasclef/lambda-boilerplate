@@ -16,7 +16,7 @@ Update `.node-version` with the targeted Node.js version. I recommend targetting
 
 **Write your code**
 
-Head to `ts/` folder. Your lambda function should be individual `.ts` files at the root of this folder. Transpile in watch mode by running `npm run watch` in a terminal.
+Head to `ts/lambda/` folder. Your lambda function should be individual `.ts` files in this folder. Transpile with `npm run build` or in watch mode by running `npm run watch` in a terminal.
 
 Should your lambda function requires additional envvars, set them in a file name by your function in `.env/` folder. For instance, if your lambda function name is _demo_, then add a `.env/demo.json` file.
 
@@ -58,10 +58,14 @@ First build you lambda app:
 npm run build
 ```
 
-The `build/` folder is now filled with `.js` files. One for each lambda function of your application. If you're happy with that, push these files to AWS:
+The `build/` folder is now filled with `.js` files. One for each lambda function of your application. If you're happy with that, deploy these files to AWS. For each `.js` file, an automated script will look for a lambda function with the same name, then your code will be published as the latest version of the lambda function. It's gonna be packages in a ZIP file as `index.js`. So the configured AWS handler should stick to default `index.handler`.
+
+In the case no suitable lambda funciton already exists in the targeted AWS account, no code will be deployed. You should rely on the AWS CDK to create lambda functions accordingly.
+
+Ready to try? Go ahead with the `deploy` script:
 
 ```
-npm run push
+npm run deploy
 ```
 
 This boilerplate is build with ❤️ in Lille.

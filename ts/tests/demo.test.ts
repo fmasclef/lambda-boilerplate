@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { handler } from "../demo";
+import fs from "fs-extra";
+import { handler } from "../lambda/demo";
+
+const event = fs.readJSONSync(`${__dirname}/../../events/demo.json`);
 
 beforeAll(() => {
   jest
@@ -18,7 +21,7 @@ beforeAll(() => {
 
 describe("λ:demo", () => {
   it("should execute", async () => {
-    const ret = await handler();
+    const ret = await handler(event);
     expect(ret.statusCode).toEqual(200);
   });
 });
