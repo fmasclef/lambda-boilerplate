@@ -87,12 +87,16 @@ import zip from "adm-zip";
       );
       process.stdout.write(`   | code sha256: ${response.CodeSha256}\n`);
       // Try to get URL for this function
-      const urlcommand = new GetFunctionUrlConfigCommand({
-        FunctionName: lambdaName,
-      });
-      const urlresponse = await lambdaClient.send(urlcommand);
-      if (urlresponse.$metadata.httpStatusCode == 200) {
-        process.stdout.write(`   | URL: ${urlresponse.FunctionUrl}\n`);
+      try {
+        const urlcommand = new GetFunctionUrlConfigCommand({
+          FunctionName: lambdaName,
+        });
+        const urlresponse = await lambdaClient.send(urlcommand);
+        if (urlresponse.$metadata.httpStatusCode == 200) {
+          process.stdout.write(`   | URL: ${urlresponse.FunctionUrl}\n`);
+        }
+      } catch (e) {
+        // no function URL
       }
     } catch (e) {
       process.stdout.write(` ⨯\n`);
