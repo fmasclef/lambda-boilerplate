@@ -28,7 +28,7 @@ import zip from "adm-zip";
   // get a list of existing lambda functions
   const functions = [];
   let marker: string | undefined;
-  process.stdout.write(`\x1b[34mList existing λ functions `);
+  process.stdout.write(`├── List existing λ functions `);
   do {
     process.stdout.write(`.`);
     const command = new ListFunctionsCommand({ MaxItems: 10, Marker: marker });
@@ -37,7 +37,7 @@ import zip from "adm-zip";
       for (const f of response.Functions) functions.push(f);
     marker = response.NextMarker;
   } while (marker);
-  process.stdout.write(`\x1b[0m\n`);
+  process.stdout.write(`\n`);
 
   // make sure all λ exist on targeted environment
   fs.ensureDirSync(`${__dirname}/../build`);
@@ -48,7 +48,7 @@ import zip from "adm-zip";
     );
     if (!functionDescriptor) {
       process.stderr.write(
-        `\x1b[1m\x1b[41m ERROR \x1b[0m \x1b[31mFunction ${lambdaName} does not exists! Deployment aborted.\x1b[0m\n`
+        `└── \x1b[1m\x1b[41m ERROR \x1b[0m \x1b[31mFunction ${lambdaName} does not exists! Deployment aborted.\x1b[0m\n`
       );
       process.exit(2);
     }
@@ -58,13 +58,13 @@ import zip from "adm-zip";
   for (const filename of fs.readdirSync(`${__dirname}/../build`)) {
     try {
       const lambdaName = path.parse(filename).name;
-      process.stdout.write(`\x1b[33mλ: ${lambdaName}\x1b[0m\n`);
+      process.stdout.write(`├── \x1b[33mλ: ${lambdaName}\x1b[0m\n`);
       // code to buffer
-      process.stdout.write(` | buffering packed code`);
+      process.stdout.write(`│   ├── buffering packed code`);
       const code = fs.readFileSync(`${__dirname}/../build/${filename}`);
       process.stdout.write(` ✓\n`);
       // create archive
-      process.stdout.write(` | creating archive`);
+      process.stdout.write(`│   ├── creating archive`);
       const archive = new zip();
       archive.addFile(
         `index.js`,
@@ -73,19 +73,19 @@ import zip from "adm-zip";
       );
       process.stdout.write(` ✓\n`);
       // update function
-      process.stdout.write(` | deploying archive to AWS\n`);
+      process.stdout.write(`│   ├── deploying archive to AWS\n`);
       const command = new UpdateFunctionCodeCommand({
         FunctionName: lambdaName,
         ZipFile: archive.toBuffer(),
       });
       const response = await lambdaClient.send(command);
       process.stdout.write(
-        `   | request ID:  ${response.$metadata.requestId}\n`
+        `│   │   ├── request ID:  ${response.$metadata.requestId}\n`
       );
       process.stdout.write(
-        `   | status code: ${response.$metadata.httpStatusCode}\n`
+        `│   │   ├── status code: ${response.$metadata.httpStatusCode}\n`
       );
-      process.stdout.write(`   | code sha256: ${response.CodeSha256}\n`);
+      process.stdout.write(`│   │   └── code sha256: ${response.CodeSha256}\n`);
       // Try to get URL for this function
       try {
         const urlcommand = new GetFunctionUrlConfigCommand({
@@ -93,13 +93,14 @@ import zip from "adm-zip";
         });
         const urlresponse = await lambdaClient.send(urlcommand);
         if (urlresponse.$metadata.httpStatusCode == 200) {
-          process.stdout.write(`   | URL: ${urlresponse.FunctionUrl}\n`);
+          process.stdout.write(`│   └── URL: ${urlresponse.FunctionUrl}\n`);
         }
       } catch (e) {
-        // no function URL
+        process.stdout.write(`│   └── no function URL set\n`);
       }
     } catch (e) {
-      process.stdout.write(` ⨯\n`);
+      process.stdout.write(`│   └── ⨯\n`);
     }
   }
+  process.stdout.write(`└── deployment done\n`);
 })();
