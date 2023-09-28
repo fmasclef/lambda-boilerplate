@@ -1,0 +1,30 @@
+{
+  "architecture": "arm",
+  "duration": 30,
+  "events": {
+    "bus": "default",
+    "list": ["test:demo"]
+  },
+  "functionUrl": true,
+  "memorySize": 128,
+  "s3": {
+    "selfStorage": true,
+    "sharedStorage": [
+      {
+        "name": "shared",
+        "read": true,
+        "write": true
+      }
+    ]
+  },
+  "schedules": [
+    {
+      "name": "leet",
+      "cron": "cron(37 13 * * ? *)"
+    }
+  ],
+  "vpc": {
+    "name": "vpc",
+    "securityGroups": ["secgrp-internal"]
+  }
+}

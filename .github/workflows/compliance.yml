@@ -1,0 +1,28 @@
+name: compliance
+on: push
+jobs:
+  compliance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: lint
+        run: |
+          npm install
+          npm run lint
+      - name: build
+        run: |
+          npm run build
+      - name: test
+        run: |
+          npm run test
+      - name: upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: synth
+        run: |
+          npm run synth

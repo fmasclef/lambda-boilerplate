@@ -1,0 +1,21 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: latest
+  pre_build:
+    commands:
+      - n 18
+      - NODE_ENV=build npm i
+  build:
+    commands:
+      - npm run lint
+      - npm run build
+      - npm run test
+      - npm run synth
+  post_build:
+    commands:
+      - npm run deploy
+artifacts:
+  files:
+    - "build/*"

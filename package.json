@@ -1,0 +1,71 @@
+{
+  "name": "lambda-boilerplate",
+  "version": "1.0.0",
+  "description": "Build & ship AWS λ app with ease",
+  "scripts": {
+    "lint": "eslint ./ts --ext .ts",
+    "build": "BUILD_NODE_VERSION=$(head -1 .node-version | awk '{split($0,a,\".\"); print a[1]}'); esbuild ts/lambda/*.ts --bundle --minify --platform=node --target=node${BUILD_NODE_VERSION} --external:aws-sdk --external:@aws-sdk --outdir=build",
+    "watch": "BUILD_NODE_VERSION=$(head -1 .node-version | awk '{split($0,a,\".\"); print a[1]}'); esbuild ts/lambda/*.ts --bundle --minify --platform=node --target=node${BUILD_NODE_VERSION} --external:aws-sdk --external:@aws-sdk --outdir=build --watch",
+    "indocker": "BUILD_NODE_VERSION=$(head -1 .node-version | awk '{split($0,a,\".\"); print a[1]}'); docker run --rm -v ${PWD}/build:/var/task:ro,delegated -p 9000:8080 --env-file .env/${FUNCTION}/docker.env amazon/aws-lambda-nodejs:${BUILD_NODE_VERSION} ${FUNCTION}.handler",
+    "test": "jest --coverage",
+    "bootstrap": "npx cdk bootstrap",
+    "synth": "npx ts-node ts/cdk/synth.ts",
+    "deploy": "npx ts-node ts/cdk/deploy.ts",
+    "destroy": "npx ts-node ts/cdk/destroy.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/fmasclef/lambda-boilerplate.git"
+  },
+  "keywords": [
+    "λ",
+    "aws",
+    "boilerplate",
+    "lambda"
+  ],
+  "author": "François Masclef",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": [
+      "html",
+      "json",
+      "text"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "verbose": true
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "*",
+    "@typescript-eslint/parser": "*",
+    "@types/adm-zip": "*",
+    "@types/aws-lambda": "*",
+    "@types/fs-extra": "*",
+    "@types/node": "*",
+    "@types/jest": "*",
+    "esbuild": "*",
+    "eslint": "*",
+    "eslint-plugin-import": "*",
+    "jest": "*",
+    "ts-jest": "*"
+  },
+  "dependencies": {
+    "@aws-cdk/cli-lib-alpha": "*",
+    "@aws-sdk/client-ssm": "*",
+    "adm-zip": "*",
+    "aws-cdk-lib": "*",
+    "aws-cdk": "*",
+    "aws-lambda": "*",
+    "constructs": "*",
+    "dotenv": "*",
+    "fs-extra": "*",
+    "ts-node": "*",
+    "typescript": "*",
+    "winston": "*"
+  }
+}
