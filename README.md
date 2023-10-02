@@ -85,7 +85,7 @@ npm run deploy
 
 You really should try to _synth_ before trying to _deploy_. The first step generates an AWS CloudFormation template. The second step push this tempalte to S3, then executes the template on CloudFormation.
 
-Unhappy with your app? _desroy_ it!
+Unhappy with your app? _destroy_ it!
 
 ```
 npm run destroy
