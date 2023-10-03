@@ -2,6 +2,7 @@
 
 import * as fs from "fs-extra";
 import { handler } from "../lambda/demo";
+import { handler as handlerLogger } from "../lambda/demo_logger";
 
 const event = fs.readJSONSync(`${__dirname}/../../.env/demo/event.json`);
 
@@ -22,6 +23,13 @@ beforeAll(() => {
 describe(`λ: demo`, () => {
   it("should execute", async () => {
     const ret = await handler(event);
+    expect(ret.statusCode).toEqual(200);
+  });
+});
+
+describe(`λ: logger demo`, () => {
+  it("run thru all log levels", async () => {
+    const ret = await handlerLogger(event);
     expect(ret.statusCode).toEqual(200);
   });
 });
